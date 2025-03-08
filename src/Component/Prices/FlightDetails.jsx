@@ -19,14 +19,7 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
               <span className="text-gray-300">|</span>
               <span className="text-gray-950">{flights.length - 1} {(flights.length - 1) > 1 ? ' Stops' : ' Stop'}</span>
             </p>
-            {/* 
-            
-            1285
-            210
-            250
-            325
-              
-            */}
+
             <div>
               <p className="flex items-center gap-2 font-semibold  text-gray-800 mt-2">
                 <ImArrowUpRight2 /> {flights[0].carrier.marketing}<span className="text-gray-300">|</span>
@@ -127,6 +120,64 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
                     <p className="text-gray-500 font-medium">Sun,23 Mar, 25</p>
                     <p className="text-gray-800 text-[13px] font-medium">
                       {flights[1]?.arrival?.terminal ? 'Terminal ' + flights[1]?.arrival?.terminal + ', ' : ''}{flights[1].arrival.airport}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+            {flights[2] && (
+              <>
+                <div className="flex justify-end my-6 w-full">
+                  <div className="flex items-center max-w-screen-lg w-full">
+                    <p className="text-orange-500 font-medium border border-gray-400 min-w-max px-1">
+                      Change of planes <span className="text-black">{((item?.elapsedTime - (flights[1]?.elapsedTime + flights[2]?.elapsedTime)) / 60).toFixed(0)} h {(item.elapsedTime - (flights[1].elapsedTime + flights[2].elapsedTime)) % 60} m Layover in {flights[1].arrival.city}</span>
+                    </p>
+                    <div className="border-t border-gray-400 w-full"></div>
+                  </div>
+                </div>
+              </>
+            )}
+            {flights[2] && (
+              <div className="">
+                <p className="flex items-center gap-2 font-semibold  text-gray-800 mt-2">
+                  <ImArrowUpRight2 /> {flights[2].carrier.marketing}<span className="text-gray-300">|</span>
+                  <span className="text-gray-500">6E 63</span>
+                  <span className="text-gray-300">|</span>
+                  <span className="text-gray-950">321</span>
+                  <span className="text-gray-300">|</span>
+                  <span className="text-gray-700">
+                    Economy - T<span className="text-orange-500">10 Seats Left</span>
+                  </span>
+                </p>
+                <div className="flex justify-between mt-6">
+                  <div className="space-y-1">
+                    <p className="text-lg font-bold">{flights[2].departure.time.slice(0, 5)}</p>
+                    <p className="text-gray-500 font-medium">Sat,22 Mar, 25</p>
+                    <p className="text-gray-800 text-[13px] font-medium">
+                      {flights[2]?.departure?.terminal ? 'Terminal ' + flights[2]?.departure?.terminal + ',' : ''} {flights[2].departure.airport}
+                    </p>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <p className="text-2xl">
+                        <LuPlaneTakeoff />
+                      </p>
+                      <p className="flex gap-3">
+                        ••• <span>•••</span> <span>•••</span>
+                      </p>
+                      <p className="text-2xl">
+                        <GrLocation />
+                      </p>
+                    </div>
+                    <p className="text-center mt-1">{(flights[2].elapsedTime / 60).toFixed(0)} h {(flights[2].elapsedTime % 60)} m</p>
+                  </div>
+
+                  <div className="text-right">
+                    <p className="text-lg font-bold">{flights[2].arrival.time.slice(0, 5)}</p>
+                    <p className="text-gray-500 font-medium">Sun,23 Mar, 25</p>
+                    <p className="text-gray-800 text-[13px] font-medium">
+                      {flights[2]?.arrival?.terminal ? 'Terminal ' + flights[2]?.arrival?.terminal + ', ' : ''}{flights[2].arrival.airport}
                     </p>
                   </div>
                 </div>
@@ -303,12 +354,6 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
         </div>
       </div>
       {/* tab end */}
-
-
-
-
-
-
     </div>
   );
 }
