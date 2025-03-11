@@ -53,7 +53,7 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
                       <GrLocation />
                     </p>
                   </div>
-                  <p className="text-center mt-1">{(flights[0]?.elapsedTime / 60).toFixed(0)} h {flights[0]?.elapsedTime % 60} m</p>
+                  <p className="text-center mt-1">{Math.floor((flights[0]?.elapsedTime / 60))} h {flights[0]?.elapsedTime % 60} m</p>
                 </div>
 
                 <div className="text-right">
@@ -71,7 +71,7 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
                 <div className="flex justify-end my-6 w-full">
                   <div className="flex items-center max-w-screen-lg w-full">
                     <p className="text-orange-500 font-medium border border-gray-400 min-w-max px-1">
-                      Change of planes <span className="text-black">{((item?.elapsedTime - (flights[0]?.elapsedTime + flights[1]?.elapsedTime)) / 60).toFixed(0)} h {(item.elapsedTime - (flights[0].elapsedTime + flights[1].elapsedTime)) % 60} m Layover in {flights[0].arrival.city}</span>
+                      Change of planes <span className="text-black">{Math.floor(((item?.elapsedTime - (flights[0]?.elapsedTime + flights[1]?.elapsedTime)) / 60))} h {(item.elapsedTime - (flights[0].elapsedTime + flights[1].elapsedTime)) % 60} m Layover in {flights[0].arrival.city}</span>
                     </p>
                     <div className="border-t border-gray-400 w-full"></div>
                   </div>
@@ -112,7 +112,7 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
                         <GrLocation />
                       </p>
                     </div>
-                    <p className="text-center mt-1">{(flights[1].elapsedTime / 60).toFixed(0)} h {(flights[1].elapsedTime % 60)} m</p>
+                    <p className="text-center mt-1">{Math.floor(flights[1].elapsedTime / 60)} h {(flights[1].elapsedTime % 60)} m</p>
                   </div>
 
                   <div className="text-right">
@@ -130,7 +130,7 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
                 <div className="flex justify-end my-6 w-full">
                   <div className="flex items-center max-w-screen-lg w-full">
                     <p className="text-orange-500 font-medium border border-gray-400 min-w-max px-1">
-                      Change of planes <span className="text-black">{((item?.elapsedTime - (flights[1]?.elapsedTime + flights[2]?.elapsedTime)) / 60).toFixed(0)} h {(item.elapsedTime - (flights[1].elapsedTime + flights[2].elapsedTime)) % 60} m Layover in {flights[1].arrival.city}</span>
+                      Change of planes <span className="text-black">{Math.floor(((item?.elapsedTime - (flights[1]?.elapsedTime + flights[2]?.elapsedTime)) / 60))} h {(item.elapsedTime - (flights[1].elapsedTime + flights[2].elapsedTime)) % 60} m Layover in {flights[1].arrival.city}</span>
                     </p>
                     <div className="border-t border-gray-400 w-full"></div>
                   </div>
@@ -170,7 +170,7 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
                         <GrLocation />
                       </p>
                     </div>
-                    <p className="text-center mt-1">{(flights[2].elapsedTime / 60).toFixed(0)} h {(flights[2].elapsedTime % 60)} m</p>
+                    <p className="text-center mt-1">{Math.floor((flights[2].elapsedTime / 60))} h {(flights[2].elapsedTime % 60)} m</p>
                   </div>
 
                   <div className="text-right">
@@ -209,35 +209,39 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
                   <th className="py-2 px-5">Tax</th>
                   <th className="py-2 px-5">Other</th>
                   <th className="py-2 px-5">Discount</th>
-                  <th className="py-2 px-5">AIT VAT</th>
+                  {/* <th className="py-2 px-5">AIT VAT</th> */}
                   <th className="py-2 px-5">Pax Count</th>
                   <th className="py-2 px-5">Amount</th>
                 </tr>
               </thead>
 
               <tbody>
-                <tr>
-                  <td className="py-3 px-5 font-medium text-gray-600">Adult</td>
-                  <td className="py-3 px-5 font-medium text-gray-600">42022</td>
-                  <td className="py-3 px-5 font-medium text-gray-600">10345</td>
-                  <td className="py-3 px-5 font-medium text-gray-600">0</td>
-                  <td className="py-3 px-5 font-medium text-gray-600">0</td>
-                  <td className="py-3 px-5 font-medium text-gray-600">156</td>
-                  <td className="py-3 px-5 font-medium text-gray-600">1</td>
-                  <td className="py-3 px-5 font-medium text-gray-600">BDT52523</td>
-                </tr>
+                {item.itinerarie.pricingInformation[0].fare.passengerInfoList.map(ele => {
+                  return (
+                    <tr>
+                      <td className="py-3 px-5 font-medium text-gray-600">{ele.passengerInfo.passengerType}</td>
+                      <td className="py-3 px-5 font-medium text-gray-600">{ele.passengerInfo.passengerTotalFare.baseFareAmount}</td>
+                      <td className="py-3 px-5 font-medium text-gray-600">{ele.passengerInfo.passengerTotalFare.totalTaxAmount}</td>
+                      <td className="py-3 px-5 font-medium text-gray-600">0</td>
+                      <td className="py-3 px-5 font-medium text-gray-600">{ele.passengerInfo.passengerTotalFare.commissionAmount}</td>
+                      {/* <td className="py-3 px-5 font-medium text-gray-600">156</td> */}
+                      <td className="py-3 px-5 font-medium text-gray-600">{ele.passengerInfo.passengerNumber}</td>
+                      <td className="py-3 px-5 font-medium text-gray-600">BDT {ele.passengerInfo.passengerTotalFare.totalFare*ele.passengerInfo.passengerNumber}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
 
             <div className="ml-auto my-2">
               <div className="font-medium flex lg:gap-20 md:gap-10 gap-5 ">
                 <p>Total Agent Payable</p>
-                <p>BDT52523</p>
+                <p>BDT {item.itinerarie.pricingInformation[0].fare.totalFare.totalPrice}</p>
               </div>
 
               <div className="font-medium flex lg:gap-14 md:gap-10 gap-5  mt-2">
                 <p>Total Customer Payable</p>
-                <p>BDT52523</p>
+                <p>BDT {item.itinerarie.pricingInformation[0].fare.totalFare.totalPrice}</p>
               </div>
             </div>
           </div>
@@ -354,6 +358,12 @@ export default function FlightDetails({ item, setDetails, flights, departureDate
         </div>
       </div>
       {/* tab end */}
+
+
+
+
+
+
     </div>
   );
 }
